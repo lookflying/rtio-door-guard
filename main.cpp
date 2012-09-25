@@ -30,7 +30,7 @@ int main()
 {
     Guard g;
     g.setAction(&guardAction);
-    g.setDistanceThreshold(100);
+    g.setDistanceThreshold(70);
     printf("Guard start to work!\n");
     g.work();
 }

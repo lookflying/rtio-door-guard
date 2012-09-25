@@ -13,7 +13,7 @@ Guard::Guard(const char* port_tag, int num)
 
 }
 Guard::~Guard(){
-    printf("Guard die~~~\n");
+    printf("Guard die...\n");
 }
 
 void Guard::work(){
