@@ -9,9 +9,7 @@ class Guard
 {
 public:
     Guard(const char* port_tag = "ttyUSB", int num = 0);
-    ~Guard(){
-        printf("killed?\n");
-    }
+    ~Guard();
 
     void work();
     void refresh();
@@ -26,6 +24,7 @@ private:
     GuardAction* m_action;
     GuardLog m_log;
     int m_count;
+    bool isTriggled(int distance);
 };
 
 #endif // GUARD_H

@@ -31,9 +31,7 @@ int main()
     Guard g;
     g.setAction(&guardAction);
     g.setDistanceThreshold(100);
-    TimeStamp a;
-    printf("%s\n%s\n%s\n", a.toFileName().c_str(),a.toString().c_str(),a.toStringL().c_str());
-
+    printf("Guard start to work!\n");
     g.work();
 }
 

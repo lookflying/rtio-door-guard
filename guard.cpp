@@ -12,16 +12,20 @@ Guard::Guard(const char* port_tag, int num)
     printf("Serial Port Opened!!\n");
 
 }
+Guard::~Guard(){
+    printf("Guard die~~~\n");
+}
 
 void Guard::work(){
     this->m_port.StartSerial();
     while(this->m_working){
         TimeStamp ts;
         int cur_distance = this->m_port.getDistance();
-        if (cur_distance < this->m_distance_threshold){
+        if (isTriggled(cur_distance)){
             if(this->m_action != NULL){
                 if((*this->m_action)(cur_distance, ts)){
                     ++this->m_count;
+                    printf("%s triggled by %d cm\n", ts.toString().c_str(), cur_distance);
                 }
             }
         }
@@ -43,4 +47,11 @@ void Guard::setDistanceThreshold(int d){
 
 void Guard::setAction(GuardAction* action){
     this->m_action = action;
+}
+
+bool Guard::isTriggled(int distance){
+    if(distance < this->m_distance_threshold){
+        return true;
+    }
+    return false;
 }
