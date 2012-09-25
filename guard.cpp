@@ -1,4 +1,5 @@
 #include "guard.h"
+#define DEBUG 0
 Guard::Guard(const char* port_tag, int num)
 {
     this->m_action = NULL;
@@ -28,7 +29,9 @@ void Guard::work(){
                 }
             }
         }
+#if DEBUG
         this->m_log.write(ts, cur_distance, this->m_count);
+#endif
     }
 }
 
