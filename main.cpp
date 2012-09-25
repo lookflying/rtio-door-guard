@@ -16,7 +16,7 @@ bool guardAction(int distance, TimeStamp ts){
 		return false;
 	}
 
-    fprintf(htmlp,"<html><head>Door Guard 1.0 </head><body><h1>[%s]Door was opened. </h1></body></html>",
+    fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was opened. </h1></body></html>",
 			ts.toString().c_str());
 
 	fclose(htmlp);
