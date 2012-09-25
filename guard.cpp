@@ -25,7 +25,6 @@ void Guard::work(){
             if(this->m_action != NULL){
                 if((*this->m_action)(cur_distance, ts)){
                     ++this->m_count;
-                    printf("%s triggled by %d cm\n", ts.toString().c_str(), cur_distance);
                 }
             }
         }

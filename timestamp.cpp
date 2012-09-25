@@ -14,7 +14,6 @@ TimeStamp::TimeStamp(){
 
 TimeStamp::TimeStamp(int h, int m, int s, int ms){
     this->m_ts = (h * 3600 + m * 60 + s)*1000 + ms;
-    printf("%d\n", this->m_ts);
 }
 
 std::string TimeStamp::toString(){

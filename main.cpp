@@ -6,7 +6,7 @@ using namespace std;
 #include "guard.h"
 #include "timestamp.h"
 
-const char* WWW_ROOT = "/home/pi/www/index.html";
+const char* WWW_ROOT = "/dev/shm/www/index.html";
 
 bool guardAction(int distance, TimeStamp ts){
 	FILE* htmlp = fopen(WWW_ROOT, "w");
@@ -16,7 +16,7 @@ bool guardAction(int distance, TimeStamp ts){
 		return false;
 	}
 
-	fprintf(htmlp,"<html><body><h1>[%s]Door open. </h1></body></html>",
+    fprintf(htmlp,"<html><head>Door Guard 1.0 </head><body><h1>[%s]Door was opened. </h1></body></html>",
 			ts.toString().c_str());
 
 	fclose(htmlp);
