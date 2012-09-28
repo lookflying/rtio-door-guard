@@ -17,4 +17,5 @@ HEADERS += \
     guardlog.h
 
 LIBS += -pthread -lrt
-
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += opencv

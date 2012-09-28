@@ -1,10 +1,12 @@
 #include "guard.h"
+#include "cmath"
 #define DEBUG 0
 Guard::Guard(const char* port_tag, int num)
 {
     this->m_action = NULL;
     this->m_working = false;
     this->m_count = 0;
+    this->m_error = 3;
     if(!this->m_port.OpenSerial(port_tag, num, 9600, 8, 1, 1)){
         perror("Can't open serial port");
         return;
@@ -52,8 +54,12 @@ void Guard::setAction(GuardAction* action){
 }
 
 bool Guard::isTriggled(int distance){
-    if(distance < this->m_distance_threshold){
-        return true;
-    }
-    return false;
+	static int old_dis = 0;
+	if (std::abs(old_dis - distance) > this->m_error){
+		old_dis = distance;
+		if(distance < this->m_distance_threshold){
+        		return true;
+	    	}
+	}
+	return false;
 }
