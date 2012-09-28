@@ -13,25 +13,27 @@ using namespace cv;
 const char* WWW_ROOT = "/dev/shm/www/index.html";
 
 bool guardAction(int distance, TimeStamp ts){
+    static TimeStamp old_ts;
+    VideoCapture cap;
+    Mat img;
 	FILE* htmlp = fopen(WWW_ROOT, "w");
-	VideoCapture cap;
-	Mat img;
-	if(cap.open(-1)){
-		cap >> img;
-		imwrite("/dev/shm/www/test.jpg", img);
-	}
-	if(0 == htmlp)
-	{
-		return false;
-	}
-
     fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was open. </h1></body></html>",
 			ts.toString().c_str());
-
 	fclose(htmlp);
-	
+    if(0 == htmlp)
+    {
+        return false;
+    }
+    if (ts.diff(old_ts) > 1000 * 20){
+        old_ts = ts;
+        if(cap.open(-1)){
+            cap >> img;
+            imwrite("/dev/shm/www/test.jpg", img);
+            cap.release();
+        }
+    }
+
     printf("%s %d cm\n", ts.toString().c_str(), distance);
-	
 	return true;
 }
 

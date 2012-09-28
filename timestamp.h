@@ -12,70 +12,50 @@ public:
     std::string toString();
     std::string toStringL();
     std::string toFileName();
+    int diff(TimeStamp x);//return abs of difference between two timestamp in ms, maximum is 86400 * 1000 * 2 ms
     void operator = (TimeStamp x){
-          this->m_ts = x.m_ts;
-      }
-      bool operator > (TimeStamp x){
-          return this->m_ts > x.m_ts;
-      }
-      bool operator < (TimeStamp x){
-          return this->m_ts < x.m_ts;
-      }
+        this->m_ts = x.m_ts;
+        this->m_date = x.m_date;
 
-      bool operator == (TimeStamp x){
-          return this->m_ts == x.m_ts;
-      }
+    }
+    bool operator > (TimeStamp x){
+        return this->m_date > x.m_date || (this->m_date == x.m_date && this->m_ts > x.m_ts);
+    }
+    bool operator < (TimeStamp x){
+      return this->m_date < x.m_date || (this->m_date == x.m_date && this->m_ts < x.m_ts);
+    }
 
-      void operator = (int x){
-          this->m_ts = x;
-      }
+    bool operator == (TimeStamp x){
+      return (this->m_date == x.m_date) && (this->m_ts == x.m_ts);
+    }
 
-      bool operator < (int x){
-          return this->m_ts < x;
-      }
+    int year(){
+      return (this->m_date >> 12);
+    }
 
-      bool operator > (int x){
-          return this->m_ts > x;
-      }
+    int month(){
+      return (this->m_date & 0x00000ff0)>>8;
+    }
 
-      bool operator == (int x){
-          return this->m_ts == x;
-      }
+    int day(){
+      return (this->m_date & 0x00000ff);
+    }
 
-      bool operator != (int x){
-          return this->m_ts != x;
-      }
+    int hour(){
+      return (int)((this->m_ts / 1000) / 3600 % 24);
+    }
 
-      void set(int x){
-          this->m_ts = x;
-      }
-      int year(){
-          return (this->m_date >> 12);
-      }
+    int minute(){
+      return (int)((this->m_ts/ 1000 / 60 ) % 60);
+    }
 
-      int month(){
-          return (this->m_date & 0x00000ff0)>>8;
-      }
+    int second(){
+      return (int)((this->m_ts / 1000) % 60);
+    }
 
-      int day(){
-          return (this->m_date & 0x00000ff);
-      }
-
-      int hour(){
-          return (int)((this->m_ts / 1000) / 3600 % 24);
-      }
-
-      int minute(){
-          return (int)((this->m_ts/ 1000 / 60 ) % 60);
-      }
-
-      int second(){
-          return (int)((this->m_ts / 1000) % 60);
-      }
-
-      int millisecond(){
-          return (int)(this->m_ts % 1000);
-      }
+    int millisecond(){
+      return (int)(this->m_ts % 1000);
+    }
 
 
 private:

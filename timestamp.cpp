@@ -1,18 +1,21 @@
 #include <cstdio>
 #include <cstddef>
 #include <cstring>
+#include <cmath>
 
 #include <sys/time.h>
 #include <time.h>
 
 #include "timestamp.h"
 
+using namespace std;
 
 TimeStamp::TimeStamp(){
     getCurrentTime(this->m_ts, this->m_date);
 }
 
 TimeStamp::TimeStamp(int h, int m, int s, int ms){
+    getCurrentTime(this->m_ts, this->m_date);
     this->m_ts = (h * 3600 + m * 60 + s)*1000 + ms;
 }
 
@@ -61,4 +64,16 @@ void TimeStamp::getCurrentTime(int& ts, int& date){
     date = (tm->tm_year + 1900)<<12 | (tm->tm_mon + 1) << 8 | tm->tm_mday;
 }
 
+int TimeStamp::diff(TimeStamp x){
+    int d_diff = abs(this->m_date - x.m_date);
+    if (0 == d_diff){
+        return abs(this->m_ts - x.m_ts);
+    }else{
+        if (this->m_date < x.m_date){
+            return (86400 * 1000 + x.m_ts - this->m_ts);
+        }else{
+            return (86400 * 1000 + this->m_ts - x.m_ts);
+        }
+    }
+}
 
