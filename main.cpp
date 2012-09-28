@@ -16,18 +16,21 @@ bool guardAction(int distance, TimeStamp ts){
     static TimeStamp old_ts;
     VideoCapture cap;
     Mat img;
-	FILE* htmlp = fopen(WWW_ROOT, "w");
-    fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was open. </h1></body></html>",
-			ts.toString().c_str());
-	fclose(htmlp);
-    if(0 == htmlp)
-    {
-        return false;
-    }
     if (ts.diff(old_ts) > 1000 * 20){
         old_ts = ts;
+        FILE* htmlp = fopen(WWW_ROOT, "w");
+        fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was open. </h1></body></html>",
+                ts.toString().c_str());
+        fclose(htmlp);
+        if(0 == htmlp)
+        {
+            return false;
+        }
         if(cap.open(-1)){
             cap >> img;
+            while (img.empty()){
+                cap >> img;
+            }
             imwrite("/dev/shm/www/test.jpg", img);
             cap.release();
         }

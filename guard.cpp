@@ -7,6 +7,7 @@ Guard::Guard(const char* port_tag, int num)
     this->m_working = false;
     this->m_count = 0;
     this->m_error = 3;
+    this->m_down_threshold = 5;
     if(!this->m_port.OpenSerial(port_tag, num, 9600, 8, 1, 1)){
         perror("Can't open serial port");
         return;
@@ -55,11 +56,29 @@ void Guard::setAction(GuardAction* action){
 
 bool Guard::isTriggled(int distance){
 	static int old_dis = 0;
+    static int down_count = 0;
+    static int up_count = 0;
 	if (std::abs(old_dis - distance) > this->m_error){
 		old_dis = distance;
 		if(distance < this->m_distance_threshold){
-        		return true;
-	    	}
+            if (distance <= old_dis){
+                down_count ++;
+            }else{
+                down_count = 0;
+            }
+            if (down_count > this->m_down_threshold){
+                down_count = 0;
+                return true;
+            }
+        }
 	}
 	return false;
+}
+
+void Guard::setError(int e){
+    this->m_error = e;
+}
+
+void Guard::setDownThreshold(int t){
+    this->m_down_threshold = t;
 }

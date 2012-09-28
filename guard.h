@@ -17,6 +17,7 @@ public:
     void setDistanceThreshold(int d);
     void setAction(GuardAction* action);
     void setError(int e);
+    void setDownThreshold(int t);
 private:
     CSerial m_port;
     bool m_working;
@@ -25,6 +26,7 @@ private:
     int m_error;
     GuardAction* m_action;
     GuardLog m_log;
+    int m_down_threshold;
     int m_count;
     bool isTriggled(int distance);
 };
