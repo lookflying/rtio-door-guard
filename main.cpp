@@ -19,7 +19,7 @@ bool guardAction(int distance, TimeStamp ts){
     if (ts.diff(old_ts) > 1000 * 20){
         old_ts = ts;
         FILE* htmlp = fopen(WWW_ROOT, "w");
-        fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was open. </h1><p><img src='test.jpg'/></p>/body></html>",
+        fprintf(htmlp,"<html><head><title>Door Guard 1.0</title></head><body><h1>[%s]Door was open. </h1><p><img src='test.jpg'/></p></body></html>",
                 ts.toString().c_str());
         fclose(htmlp);
         if(0 == htmlp)
